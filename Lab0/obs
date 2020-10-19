@@ -1,0 +1,2 @@
+compilar com 
+>gcc -Wall matriz.c main.c -o main -lm
