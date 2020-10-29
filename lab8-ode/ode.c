@@ -29,30 +29,30 @@ double (*f) (double t, double y), double tol)
     double t=t0;
     double y=y0;
     double h=1.0e-7;
-    while( (t1-t) >= h/2 )
+    while( (t1-t) >= 0.0 )
     {
-       double y1=RungeKuttaStep(t,h,y,f);
-       double y2=RungeKuttaStep(t+h/2,h/2,RungeKuttaStep(t,h/2,y,f),f);
-       double erro=(y2-y1)/15;
-       double fator=pow((tol/fabs(erro)),1/5);
-       if(f>=1)//passo validado
-       {
-           t+=h;
-           if(fator>1.2)
-           {
-               h*=fator;
-           }
-           else
-           {
-               h*=1.2;
-           }
-           
-           y=y2+erro;
-       }
-       else//passo rejeitado
-       {
-           h*=0.8*fator;
-       }
+        double y1=RungeKuttaStep(t,h,y,f);
+        double y2=RungeKuttaStep(t+h/2,h/2,RungeKuttaStep(t,h/2,y,f),f);
+        double erro=(y2-y1)/15;
+        double fator=pow((tol/fabs(erro)),1.0/5.0);
+        if(fator>=1)//passo validado
+        {
+            t+=h;
+            if(fator<1.2)
+            {
+                h*=fator;
+            }
+            else
+            {
+                h*=1.2;
+            }
+
+            y=y2+erro;
+        }
+        else//passo rejeitado
+        {
+            h*=0.8*fator;
+        }
        
     }
     return y;
